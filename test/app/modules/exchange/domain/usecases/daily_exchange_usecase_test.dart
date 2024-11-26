@@ -17,9 +17,8 @@ void main() {
   final logger = LoggerMock();
   final usecase =
       DailyExhangeUsecaseImpl(repository: repository, logger: logger);
-  const apiKey = '12345';
-  const from_symbol = '2';
-  const to_symbol = '4';
+
+  const fromSymbol = '2';
 
   test('should return a Daily exchange', () async {
     // Arrange
@@ -27,12 +26,13 @@ void main() {
         dailyExchangeRateEntity: [], from: '1', lastUpdatedAt: '2', to: '3');
 
     when(() => repository.daily(
-            apiKey: apiKey, from_symbol: from_symbol, to_symbol: to_symbol))
-        .thenAnswer((_) async => Right(dailyExchangeEntity));
+          fromSymbol: fromSymbol,
+        )).thenAnswer((_) async => Right(dailyExchangeEntity));
 
     // Act
     final result = await usecase(
-        apiKey: apiKey, from_symbol: from_symbol, to_symbol: to_symbol);
+      fromSymbol: fromSymbol,
+    );
 
     // Assert
     expect(result.isRight(), true);
@@ -45,12 +45,13 @@ void main() {
   test('should return a FailureSearch on error', () async {
     // Arrange
     when(() => repository.daily(
-            apiKey: apiKey, from_symbol: from_symbol, to_symbol: to_symbol))
-        .thenAnswer((_) async => Left(InvalidResponseFailure()));
+          fromSymbol: fromSymbol,
+        )).thenAnswer((_) async => Left(InvalidResponseFailure()));
 
     // Act
     final result = await usecase(
-        apiKey: apiKey, from_symbol: from_symbol, to_symbol: to_symbol);
+      fromSymbol: fromSymbol,
+    );
 
     // Assert
     expect(result.isLeft(), true);

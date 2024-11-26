@@ -17,9 +17,9 @@ class LoggerMock extends Mock implements Logger {}
 void main() {
   final datasource = ExchangeDataSourceMock();
   final logger = LoggerMock();
-  const apiKey = '12345';
-  const from_symbol = '2';
-  const to_symbol = '4';
+
+  const fromSymbol = '2';
+
   final repository =
       ExchangeRepositoryImpl(datasource: datasource, logger: logger);
 
@@ -29,13 +29,13 @@ void main() {
         exchangeRate: 2.2, fromSymbol: '', lastUpdatedAt: '', toSymbol: '');
 
     when(() => datasource.getCurrentExchange(
-        fromSymbol: from_symbol,
-        toSymbol: to_symbol,
-        apiKey: apiKey)).thenAnswer((_) async => currentExchangeModel);
+          fromSymbol: fromSymbol,
+        )).thenAnswer((_) async => currentExchangeModel);
 
     // Act
     final result = await repository.current(
-        apiKey: apiKey, from_symbol: from_symbol, to_symbol: to_symbol);
+      fromSymbol: fromSymbol,
+    );
 
     // Assert
     expect(result.isRight(), true);
@@ -50,13 +50,13 @@ void main() {
       () async {
     // Arrange
     when(() => datasource.getCurrentExchange(
-        fromSymbol: from_symbol,
-        toSymbol: to_symbol,
-        apiKey: apiKey)).thenThrow(Exception());
+          fromSymbol: fromSymbol,
+        )).thenThrow(Exception());
 
     // Act
     final result = await repository.current(
-        apiKey: apiKey, from_symbol: from_symbol, to_symbol: to_symbol);
+      fromSymbol: fromSymbol,
+    );
 
     // Assert
     expect(result.isLeft(), true);
@@ -69,13 +69,13 @@ void main() {
         dailyExchangeRateEntity: [], from: '1', lastUpdatedAt: '2', to: '3');
 
     when(() => datasource.getDailyExchange(
-        fromSymbol: from_symbol,
-        toSymbol: to_symbol,
-        apiKey: apiKey)).thenAnswer((_) async => dailyExchangeModel);
+          fromSymbol: fromSymbol,
+        )).thenAnswer((_) async => dailyExchangeModel);
 
     // Act
     final result = await repository.daily(
-        apiKey: apiKey, from_symbol: from_symbol, to_symbol: to_symbol);
+      fromSymbol: fromSymbol,
+    );
 
     // Assert
     expect(result.isRight(), true);
@@ -90,13 +90,13 @@ void main() {
       () async {
     // Arrange
     when(() => datasource.getCurrentExchange(
-        fromSymbol: from_symbol,
-        toSymbol: to_symbol,
-        apiKey: apiKey)).thenThrow(Exception());
+          fromSymbol: fromSymbol,
+        )).thenThrow(Exception());
 
     // Act
     final result = await repository.current(
-        apiKey: apiKey, from_symbol: from_symbol, to_symbol: to_symbol);
+      fromSymbol: fromSymbol,
+    );
 
     // Assert
     expect(result.isLeft(), true);

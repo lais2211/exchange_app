@@ -18,14 +18,13 @@ void main() async {
   final dio = DioMock();
   final logger = LoggerMock();
   final datasource = ExchangeDatasourceImpl(dio: dio, logger: logger);
-  const apiKey = '12345';
-  const from_symbol = '2';
-  const to_symbol = '4';
+
+  const fromSymbol = '2';
 
   test('should return a current exchange', () async {
     // Arrange
     when(() => dio.get(ConfigEnv.currentPath,
-            queryParameters: {'from_symbol': from_symbol}))
+            queryParameters: {'from_symbol': fromSymbol}))
         .thenAnswer((_) async => Response<Map<String, Object>>(
               data: currentResult,
               requestOptions: RequestOptions(),
@@ -34,7 +33,8 @@ void main() async {
 
     // Act
     final result = await datasource.getCurrentExchange(
-        fromSymbol: from_symbol, toSymbol: to_symbol, apiKey: apiKey);
+      fromSymbol: fromSymbol,
+    );
 
     // Assert
     expect(result, isA<CurrentExchangeModel>());
@@ -45,7 +45,7 @@ void main() async {
 
     when(() => dio.get(
           ConfigEnv.currentPath,
-          queryParameters: {'from_symbol': from_symbol},
+          queryParameters: {'from_symbol': fromSymbol},
         )).thenAnswer((_) async => Response<Map<String, dynamic>>(
           data: null,
           requestOptions: RequestOptions(),
@@ -54,7 +54,8 @@ void main() async {
 
     // Act
     final future = datasource.getCurrentExchange(
-        fromSymbol: from_symbol, toSymbol: to_symbol, apiKey: apiKey);
+      fromSymbol: fromSymbol,
+    );
 
     // Assert
     expect(future, throwsA(isA<DataSourceFailure>()));
@@ -63,7 +64,7 @@ void main() async {
   test('should return a daily exchange', () async {
     // Arrange
     when(() => dio.get(ConfigEnv.dailyPath,
-            queryParameters: {'from_symbol': from_symbol}))
+            queryParameters: {'from_symbol': fromSymbol}))
         .thenAnswer((_) async => Response<Map<String, Object>>(
               data: dailyResult,
               requestOptions: RequestOptions(),
@@ -72,7 +73,8 @@ void main() async {
 
     // Act
     final result = await datasource.getDailyExchange(
-        fromSymbol: from_symbol, toSymbol: to_symbol, apiKey: apiKey);
+      fromSymbol: fromSymbol,
+    );
 
     // Assert
     expect(result, isA<DailyExchangeModel>());
@@ -83,7 +85,7 @@ void main() async {
 
     when(() => dio.get(
           ConfigEnv.dailyPath,
-          queryParameters: {'from_symbol': from_symbol},
+          queryParameters: {'from_symbol': fromSymbol},
         )).thenAnswer((_) async => Response<Map<String, dynamic>>(
           data: null,
           requestOptions: RequestOptions(),
@@ -92,7 +94,8 @@ void main() async {
 
     // Act
     final future = datasource.getDailyExchange(
-        fromSymbol: from_symbol, toSymbol: to_symbol, apiKey: apiKey);
+      fromSymbol: fromSymbol,
+    );
 
     // Assert
     expect(future, throwsA(isA<DataSourceFailure>()));
