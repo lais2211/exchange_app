@@ -14,14 +14,12 @@ class ExchangeRepositoryImpl implements ExchangeRepository {
   ExchangeRepositoryImpl({required this.datasource, required this.logger});
 
   @override
-  Future<Either<FailureSearch, DailyExchangeEntity>> daily(
-      {required String apiKey,
-      required String from_symbol,
-      required String to_symbol}) async {
+  Future<Either<FailureSearch, DailyExchangeEntity>> daily({
+    required String fromSymbol,
+  }) async {
     logger.d('Inicio do repository na infra daily.');
     try {
-      final result = await datasource.getDailyExchange(
-          fromSymbol: from_symbol, toSymbol: to_symbol, apiKey: apiKey);
+      final result = await datasource.getDailyExchange(fromSymbol: fromSymbol);
       logger.d(
         result.toString(),
       );
@@ -32,14 +30,13 @@ class ExchangeRepositoryImpl implements ExchangeRepository {
   }
 
   @override
-  Future<Either<FailureSearch, CurrentExchangeEntity>> current(
-      {required String apiKey,
-      required String from_symbol,
-      required String to_symbol}) async {
+  Future<Either<FailureSearch, CurrentExchangeEntity>> current({
+    required String fromSymbol,
+  }) async {
     logger.d('Inicio do repository na infra current.');
     try {
-      final result = await datasource.getCurrentExchange(
-          fromSymbol: from_symbol, toSymbol: to_symbol, apiKey: apiKey);
+      final result =
+          await datasource.getCurrentExchange(fromSymbol: fromSymbol);
       logger.d(
         result,
       );

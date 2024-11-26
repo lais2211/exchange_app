@@ -6,10 +6,9 @@ import 'package:logger/logger.dart';
 import '../../../../core/errors/errors.dart';
 
 abstract class CurrentExhangeUsecase {
-  Future<Either<FailureSearch, CurrentExchangeEntity>> call(
-      {required String apiKey,
-      required String from_symbol,
-      required String to_symbol});
+  Future<Either<FailureSearch, CurrentExchangeEntity>> call({
+    required String fromSymbol,
+  });
 }
 
 class CurrentExhangeUsecaseImpl implements CurrentExhangeUsecase {
@@ -19,14 +18,12 @@ class CurrentExhangeUsecaseImpl implements CurrentExhangeUsecase {
   CurrentExhangeUsecaseImpl({required this.repository, required this.logger});
 
   @override
-  Future<Either<FailureSearch, CurrentExchangeEntity>> call(
-      {required String apiKey,
-      required String from_symbol,
-      required String to_symbol}) async {
+  Future<Either<FailureSearch, CurrentExchangeEntity>> call({
+    required String fromSymbol,
+  }) async {
     logger.d('Inicio do usecase na domain para current exchange.');
     try {
-      return await repository.current(
-          apiKey: apiKey, from_symbol: from_symbol, to_symbol: to_symbol);
+      return await repository.current(fromSymbol: fromSymbol);
     } on Exception {
       return Left(InvalidResponseFailure());
     }
