@@ -13,14 +13,18 @@ class CurrentCubit extends Cubit<CurrentState> {
   Future<void> getCurrentExchange(String fromSymbol) async {
     emit(CurrentLoading());
     try {
-      final response = await usecase(fromSymbol: fromSymbol);
+      if (fromSymbol.isEmpty) {
+        emit(CurrentError());
+      } else {
+        final response = await usecase(fromSymbol: fromSymbol);
 
-      response.fold(
-        (l) => emit(CurrentError()),
-        (r) => emit(
-          CurrentSucess(r),
-        ),
-      );
+        response.fold(
+          (l) => emit(CurrentError()),
+          (r) => emit(
+            CurrentSucess(r),
+          ),
+        );
+      }
     } catch (e) {
       emit(CurrentError());
     }
