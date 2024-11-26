@@ -29,10 +29,9 @@ class ExchangeDatasourceImpl implements ExchangeDatasource {
   }
 
   @override
-  Future<CurrentExchangeModel> getCurrentExchange(
-      {required String fromSymbol,
-      required String toSymbol,
-      required String apiKey}) async {
+  Future<CurrentExchangeModel> getCurrentExchange({
+    required String fromSymbol,
+  }) async {
     try {
       final response = await dio.get(
         ConfigEnv.currentPath,
@@ -57,10 +56,9 @@ class ExchangeDatasourceImpl implements ExchangeDatasource {
   }
 
   @override
-  Future<DailyExchangeModel> getDailyExchange(
-      {required String fromSymbol,
-      required String toSymbol,
-      required String apiKey}) async {
+  Future<DailyExchangeModel> getDailyExchange({
+    required String fromSymbol,
+  }) async {
     try {
       final response = await dio.get(
         ConfigEnv.dailyPath,

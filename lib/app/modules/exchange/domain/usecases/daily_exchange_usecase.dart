@@ -6,10 +6,9 @@ import 'package:logger/logger.dart';
 import '../../../../core/errors/errors.dart';
 
 abstract class DailyExhangeUsecase {
-  Future<Either<FailureSearch, DailyExchangeEntity>> call(
-      {required String apiKey,
-      required String from_symbol,
-      required String to_symbol});
+  Future<Either<FailureSearch, DailyExchangeEntity>> call({
+    required String fromSymbol,
+  });
 }
 
 class DailyExhangeUsecaseImpl implements DailyExhangeUsecase {
@@ -19,14 +18,12 @@ class DailyExhangeUsecaseImpl implements DailyExhangeUsecase {
   DailyExhangeUsecaseImpl({required this.repository, required this.logger});
 
   @override
-  Future<Either<FailureSearch, DailyExchangeEntity>> call(
-      {required String apiKey,
-      required String from_symbol,
-      required String to_symbol}) async {
+  Future<Either<FailureSearch, DailyExchangeEntity>> call({
+    required String fromSymbol,
+  }) async {
     logger.d('Inicio do usecase na domain para daily exchange.');
     try {
-      return await repository.daily(
-          apiKey: apiKey, from_symbol: from_symbol, to_symbol: to_symbol);
+      return await repository.daily(fromSymbol: fromSymbol);
     } on Exception {
       return Left(InvalidResponseFailure());
     }
