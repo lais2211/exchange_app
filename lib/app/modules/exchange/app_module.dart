@@ -2,6 +2,7 @@ import 'package:exchange_app/app/modules/exchange/domain/repositories/exchange_r
 import 'package:exchange_app/app/modules/exchange/domain/usecases/current_exchange_usecase.dart';
 import 'package:exchange_app/app/modules/exchange/external/datasources/exchange_datasource_impl.dart';
 import 'package:exchange_app/app/modules/exchange/infra/datasource/exchange_datasource.dart';
+import 'package:exchange_app/app/modules/exchange/presenter/pages/home_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../core/config/register_dio.dart';
@@ -21,5 +22,7 @@ class AppModule extends Module {
   }
 
   @override
-  void routes(r) {}
+  void routes(r) {
+     r.child('/', child: (context) => const HomePage());
+  }
 }

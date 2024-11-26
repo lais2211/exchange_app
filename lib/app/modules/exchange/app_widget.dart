@@ -8,7 +8,6 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Exchange App',
-      theme: ThemeData.dark(),
       routerConfig: Modular.routerConfig,
     );
   }
